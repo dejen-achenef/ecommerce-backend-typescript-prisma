@@ -13,8 +13,23 @@ datasource db {
   provider = "postgresql"
 }
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
+  id        String      @id @default(uuid())
+  username      String
   email     String   @unique
   createdAt DateTime @default(now())
+    products  Product[] // back-relation for Prisma
+
+}
+
+
+
+model Product {
+id String @id @default(uuid())
+name String 
+description String
+price Float
+stock Int 
+category String?
+userId String  
+user User @relation( fields:[userId],references: [id])
 }

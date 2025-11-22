@@ -1,37 +1,56 @@
 generator client {
-  provider = "prisma-client-js"  // must be "prisma-client-js"
-  output   = "../generated/prisma"
+  provider = "prisma-client"
 }
 
+datasource db {
+  provider = "postgresql"
+}
+
+
 model User {
-  id        String    @id @default(uuid())
+  id        String     @id @default(uuid())
   username  String
-  email     String    @unique
-  password  String
-  createdAt DateTime  @default(now())
-  products  Product[] // one-to-many: User -> Product
-  orders    Order[]   // one-to-many: User -> Order
+  email     String   @unique
+  createdAt DateTime @default(now())
+
+  orders    Order[]
+  products  Product[]
 }
 
 model Product {
-  id          String   @id @default(uuid())
+  id          String       @id @default(uuid())
   name        String
   description String
   price       Float
   stock       Int
   category    String?
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
-  orders      Order[]  @relation("OrderProducts") // many-to-many with Order
+
+  userId String
+  user   User  @relation(fields: [userId], references: [id])
+
+  orderProducts OrderProducts[]  // many order relations
 }
 
 model Order {
-  id          String    @id @default(uuid())
+  id          String     @id @default(uuid())
   userId      String
-  user        User      @relation(fields: [userId], references: [id])
   description String
   totalPrice  Float
   status      String
-  products    Product[] @relation("OrderProducts") // many-to-many relation
-  createdAt   DateTime  @default(now())
+
+  user        User      @relation(fields: [userId], references: [id])
+  orderProducts  OrderProducts[]
+}
+
+model OrderProducts {
+  id        String   @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int       @default(1)
+  totalPrice Float  // price snapshot
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([orderId, productId]) // Each product appears once per order
 }

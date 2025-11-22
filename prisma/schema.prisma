@@ -1,35 +1,37 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"  // must be "prisma-client-js"
   output   = "../generated/prisma"
 }
 
-datasource db {
-  provider = "postgresql"
-}
 model User {
-  id        String      @id @default(uuid())
-  username      String
-  email     String   @unique
-  createdAt DateTime @default(now())
-    products  Product[] // back-relation for Prisma
-
+  id        String    @id @default(uuid())
+  username  String
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  products  Product[] // one-to-many: User -> Product
+  orders    Order[]   // one-to-many: User -> Order
 }
-
-
 
 model Product {
-id String @id @default(uuid())
-name String 
-description String
-price Float
-stock Int 
-category String?
-userId String  
-user User @relation( fields:[userId],references: [id])
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  price       Float
+  stock       Int
+  category    String?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  orders      Order[]  @relation("OrderProducts") // many-to-many with Order
+}
+
+model Order {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  description String
+  totalPrice  Float
+  status      String
+  products    Product[] @relation("OrderProducts") // many-to-many relation
+  createdAt   DateTime  @default(now())
 }

@@ -1,5 +1,4 @@
-import express from "express";
+import { router } from "../routes/routes.js";
 import { createUser } from "../functions/routeFucntions";
-const router = express.Router();
 
 router.post("/auth/register", createUser);

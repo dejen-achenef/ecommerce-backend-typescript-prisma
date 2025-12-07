@@ -1,32 +1,22 @@
 {
   "name": "ecommerce_backend_prisma",
   "version": "1.0.0",
-  "main": "server.ts",
   "type": "module",
+  "main": "server.ts",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only server.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "@types/bcrypt": "^6.0.0",
-    "@types/cookie-parser": "^1.4.10",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.5",
-    "@types/node": "^24.10.1",
-    "prisma": "^7.0.0",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.3"
+    "dev": "node --loader ts-node/esm server.ts"
   },
   "dependencies": {
+    "express": "^5.1.0",
     "@prisma/client": "^7.0.0",
-    "bcrypt": "^6.0.0",
-    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "nodemon": "^3.1.11"
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "ts-node": "^10.9.2",
+    "prisma": "^7.0.0"
   }
 }

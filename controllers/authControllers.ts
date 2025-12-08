@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { validateEmail, validatePassword, validateUsername } from "../validators/inputValidators.js";
 
+
 const prisma = new PrismaClient({} as any);
 
 export const loginUser = async (

@@ -14,7 +14,6 @@ export class AppError extends Error {
 }
 
 export const handlePrismaError = (error: any): AppError => {
-
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     switch (error.code) {
       case "P2002":

@@ -4,7 +4,13 @@
   "type": "module",
   "main": "server.ts",
   "scripts": {
-    "dev": "node --loader ts-node/esm server.ts"
+    "dev": "node --loader ts-node/esm server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "prisma:seed": "ts-node --esm prisma/seed.ts"
   },
   "dependencies": {
     "express": "^5.1.0",

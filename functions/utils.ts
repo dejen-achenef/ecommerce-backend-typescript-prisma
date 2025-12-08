@@ -26,7 +26,6 @@ export const isValidUUID = (uuid: string): boolean => {
 export const paginate = <T>(array: T[], page: number, limit: number) => {
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;
-
   return {
     data: array.slice(startIndex, endIndex),
     pagination: {

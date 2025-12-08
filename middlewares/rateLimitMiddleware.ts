@@ -51,7 +51,6 @@ export const rateLimiter = (
   };
 };
 
-
 export const strictRateLimiter = rateLimiter(15 * 60 * 1000, 10); // 10 requests per 15 minutes
 export const normalRateLimiter = rateLimiter(15 * 60 * 1000, 100); // 100 requests per 15 minutes
 

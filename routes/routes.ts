@@ -6,6 +6,7 @@ import { authenticateUser } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
+
 // Auth routes
 router.post("/auth/register", createUser);
 

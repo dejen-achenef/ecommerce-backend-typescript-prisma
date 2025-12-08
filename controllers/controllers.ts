@@ -24,6 +24,7 @@ export const createUser = async (
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(email)) {
       res.status(400).json({
         success: false,

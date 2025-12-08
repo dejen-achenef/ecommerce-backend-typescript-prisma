@@ -1,25 +1,35 @@
-// JWT token utilities (placeholder for future implementation)
+// JWT token utilities
+import jwt from "jsonwebtoken";
+import { config } from "../config/env.js";
+
 export interface JWTPayload {
   userId: string;
   username: string;
   email: string;
+  role?: string;
 }
 
 export const generateToken = (payload: JWTPayload): string => {
-  // TODO: Implement JWT token generation
-  // For now, return a placeholder
-  return `token-${payload.userId}-${Date.now()}`;
+  return jwt.sign(payload, config.jwtSecret, {
+    expiresIn: config.jwtExpiresIn,
+  });
 };
 
 export const verifyToken = (token: string): JWTPayload | null => {
-  // TODO: Implement JWT token verification
-  // For now, return null
-  return null;
+  try {
+    const decoded = jwt.verify(token, config.jwtSecret) as JWTPayload;
+    return decoded;
+  } catch (error) {
+    return null;
+  }
 };
 
 export const decodeToken = (token: string): JWTPayload | null => {
-  // TODO: Implement JWT token decoding
-  // For now, return null
-  return null;
+  try {
+    const decoded = jwt.decode(token) as JWTPayload;
+    return decoded;
+  } catch (error) {
+    return null;
+  }
 };
 

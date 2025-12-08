@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { validateEmail, validatePassword, validateUsername } from "../validators/inputValidators.js";
+import { validateEmail } from "../validators/inputValidators.js";
+import { generateToken } from "../functions/jwt.js";
 
 const prisma = new PrismaClient({} as any);
 
@@ -16,6 +17,17 @@ export const loginUser = async (
       res.status(400).json({
         success: false,
         message: "Email and password are required",
+        errors: ["Email and password are required"],
+      });
+      return;
+    }
+
+    // Validate email format
+    if (!validateEmail(email)) {
+      res.status(400).json({
+        success: false,
+        message: "Invalid email format",
+        errors: ["Email must be a valid email address format"],
       });
       return;
     }
@@ -28,7 +40,8 @@ export const loginUser = async (
     if (!user) {
       res.status(401).json({
         success: false,
-        message: "Invalid email or password",
+        message: "Invalid credentials",
+        errors: ["Invalid email or password"],
       });
       return;
     }
@@ -39,28 +52,40 @@ export const loginUser = async (
     if (!isPasswordValid) {
       res.status(401).json({
         success: false,
-        message: "Invalid email or password",
+        message: "Invalid credentials",
+        errors: ["Invalid email or password"],
       });
       return;
     }
 
-    // TODO: Generate JWT token
-    // For now, return user data without password
+    // Generate JWT token
+    const token = generateToken({
+      userId: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role || "User",
+    });
+
     res.status(200).json({
       success: true,
       message: "Login successful",
-      data: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        // token: generateToken({ userId: user.id, username: user.username, email: user.email })
+      object: {
+        token,
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role || "User",
+        },
       },
+      errors: null,
     });
   } catch (error: any) {
     console.error("Login error:", error);
     res.status(500).json({
       success: false,
       message: "Internal server error",
+      errors: ["Internal server error"],
     });
   }
 };

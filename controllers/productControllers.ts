@@ -5,6 +5,7 @@ import { AppError, handlePrismaError } from "../functions/errorHandler.js";
 
 const prisma = new PrismaClient({} as any);
 
+
 export const createProduct = async (
   req: Request,
   res: Response

@@ -1,5 +1,4 @@
 // TypeScript type definitions
-
 export interface UserResponse {
   id: string;
   username: string;

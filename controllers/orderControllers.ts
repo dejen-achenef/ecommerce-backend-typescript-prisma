@@ -3,7 +3,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient({} as any);
 
-
 export const createOrder = async (
   req: Request,
   res: Response

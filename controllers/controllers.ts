@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
+
 // Prisma 7.0.0 requires options parameter, but will use prisma.config.ts for database URL
 const prisma = new PrismaClient({} as any);
-
-import bcrypt from "bcrypt";
 
 export const createUser = async (
   req: Request,

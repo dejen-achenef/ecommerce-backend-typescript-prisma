@@ -1,5 +1,4 @@
 // JWT token utilities (placeholder for future implementation)
-
 export interface JWTPayload {
   userId: string;
   username: string;

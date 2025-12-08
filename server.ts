@@ -7,6 +7,7 @@ const app = express();
 // CORS middleware - allow requests from any origin
 app.use(cors());
 
+
 // Middleware to parse JSON bodies
 app.use(express.json());
 
